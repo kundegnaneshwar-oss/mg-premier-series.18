@@ -50,6 +50,10 @@ async function restoreHostSession() {
     if (response.ok && (await response.json()).authenticated) showDashboard();
   } catch { loginMessage.textContent = "Unable to connect. Please retry sign-in."; }
 }
+if (new URLSearchParams(location.search).has("confirmed")) {
+  loginMessage.textContent = "Email confirmed. Sign in with your host email and password.";
+  history.replaceState(null, "", location.pathname + location.hash);
+}
 restoreHostSession();
 
 function getRecords() {
