@@ -151,3 +151,6 @@ form { position: relative; z-index: 1; }
 
 /* Logo asset reliability: preserve the circular emblem proportions. */
 .brand-logo, .large-logo { object-fit: contain; display: block; }
+
+/* Keep visibility controls effective even on elements with display styles. */
+[hidden] { display: none !important; }
