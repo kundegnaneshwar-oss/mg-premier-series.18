@@ -140,5 +140,5 @@ settingsForm.addEventListener("submit", event => {
     mapsUrl: document.getElementById("maps-url").value.trim() || "https://maps.google.com/?q=" + encodeURIComponent(document.getElementById("tournament-location").value.trim())
   };
   localStorage.setItem(EVENT_SETTINGS_KEY, JSON.stringify(cfg));
-  document.getElementById("settings-message").textContent = "Saved for the public page in this browser. Refresh index.html to view the changes.";
+  document.getElementById("settings-message").textContent = "Saved. The registration page updates automatically in this browser. Use the same site address; these demo settings do not sync to other browsers or devices.";
 });

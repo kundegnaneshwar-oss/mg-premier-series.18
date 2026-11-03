@@ -37,6 +37,16 @@ function applyPublicSettings() {
 }
 applyPublicSettings();
 
+// Keep an open registration page in sync with changes from the host tab.
+window.addEventListener("storage", (event) => {
+  if (event.key === "mgpsEventSettings" || event.key === null) applyPublicSettings();
+});
+window.addEventListener("pageshow", applyPublicSettings);
+window.addEventListener("focus", applyPublicSettings);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) applyPublicSettings();
+});
+
 form.addEventListener("submit", (event) => {
   if (form.hidden) { event.preventDefault(); return; }
   event.preventDefault();
