@@ -8,7 +8,7 @@ export function defaultSettings() {
   };
 }
 export function isHost(user) {
-  return !!user && user.emailVerified === true && user.email?.toLowerCase() === 'mgpremierseries.18@gmail.com';
+  return !!user && typeof user.confirmedAt === 'string' && Number.isFinite(Date.parse(user.confirmedAt)) && user.email?.toLowerCase() === 'mgpremierseries.18@gmail.com';
 }
 export function validateSettings(input) {
   if (!input || typeof input.registrationsOpen !== 'boolean') return null;

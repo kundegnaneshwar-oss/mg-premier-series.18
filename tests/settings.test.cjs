@@ -17,9 +17,11 @@ test('settings validate booleans, lengths and safe map URLs', async () => {
   }
   assert.equal(validateSettings({ ...settings, tournamentDate: '' }).tournamentDate, '');
   assert.equal(isHost(null), false);
-  assert.equal(isHost({ email: 'visitor@example.com', emailVerified: true }), false);
-  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', emailVerified: false }), false);
-  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', emailVerified: true }), true);
+  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', emailVerified: true }), false);
+  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', confirmedAt: 'invalid' }), false);
+  assert.equal(isHost({ email: 'visitor@example.com', confirmedAt: '2026-11-03T15:00:00Z' }), false);
+  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', confirmedAt: undefined }), false);
+  assert.equal(isHost({ email: 'mgpremierseries.18@gmail.com', confirmedAt: '2026-11-03T15:00:00Z' }), true);
 });
 
 test('a fresh mobile browser opens and closes registration from shared settings', async () => {
@@ -59,4 +61,33 @@ test('a fresh mobile browser opens and closes registration from shared settings'
   await vm.runInContext('refreshPublicSettings()', context);
   assert.equal(node('registration-form').hidden, false);
   assert.ok(calls.every(([url, options]) => url === '/api/event-settings' && options.cache === 'no-store'));
+});
+
+test('host authorization accepts the installed Identity SDK user format', async () => {
+  const { getUser } = await import('@netlify/identity');
+  const { isHost } = await import('../netlify/lib/settings-helpers.mjs');
+  const originalFetch = globalThis.fetch;
+  const originalNetlify = globalThis.Netlify;
+  let confirmed = true;
+  globalThis.Netlify = { context: {
+    url: 'https://host-auth.example/host.html',
+    cookies: { get: () => 'test-session' },
+  } };
+  globalThis.fetch = async url => {
+    assert.equal(String(url), 'https://host-auth.example/.netlify/identity/user');
+    return Response.json({
+      id: 'test-host', email: 'mgpremierseries.18@gmail.com',
+      confirmed_at: confirmed ? '2026-11-03T15:00:00Z' : null,
+    });
+  };
+  try {
+    const user = await getUser();
+    assert.equal(user.confirmedAt, '2026-11-03T15:00:00Z');
+    assert.equal(isHost(user), true);
+    confirmed = false;
+    assert.equal(isHost(await getUser()), false);
+  } finally {
+    globalThis.fetch = originalFetch;
+    globalThis.Netlify = originalNetlify;
+  }
 });
