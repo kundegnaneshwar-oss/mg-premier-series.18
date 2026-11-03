@@ -13,7 +13,7 @@ export default async (request: Request) => {
       let input;
       try { input = await request.json(); } catch { return new Response('Invalid settings', { status: 400, headers }); }
       const settings = validateSettings(input);
-      if (!settings) return new Response('Invalid settings. Use an http or https Maps link.', { status: 400, headers });
+      if (!settings) return new Response('Invalid settings. Use a valid tournament date and an http or https Maps link.', { status: 400, headers });
       const db = drizzle();
       await db.insert(eventSettings).values({ id: 1, ...settings }).onConflictDoUpdate({ target: eventSettings.id, set: settings });
       return Response.json(settings, { headers });
