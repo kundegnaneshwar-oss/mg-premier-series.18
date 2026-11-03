@@ -16,6 +16,13 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 });
 
 function applyPublicSettings(cfg) {
+  const dateDisplay = document.getElementById("tournament-date-display");
+  if (dateDisplay) {
+    const date = cfg.tournamentDate ? new Date(cfg.tournamentDate + "T00:00:00Z") : null;
+    dateDisplay.textContent = date && Number.isFinite(date.getTime())
+      ? new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(date)
+      : "To be announced";
+  }
   const isOpen = cfg.registrationsOpen === true;
   const closed = document.getElementById("registration-closed");
   if (closed) closed.hidden = isOpen;

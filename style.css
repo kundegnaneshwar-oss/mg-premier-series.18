@@ -154,3 +154,6 @@ form { position: relative; z-index: 1; }
 
 /* Keep visibility controls effective even on elements with display styles. */
 [hidden] { display: none !important; }
+
+.tournament-date { margin: 18px 0; padding: 12px; border-block: 1px solid rgba(231,185,78,.3); color: #fff4d9; text-align: center; }
+.tournament-date strong { display: block; margin-bottom: 5px; color: var(--gold-bright); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }

@@ -1,0 +1,1 @@
+ALTER TABLE "event_settings" ADD COLUMN "tournament_date" text DEFAULT '' NOT NULL;

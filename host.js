@@ -141,6 +141,7 @@ async function loadEventSettings() {
     const cfg = await response.json();
     document.getElementById("registrations-open").checked = cfg.registrationsOpen;
     document.getElementById("session-number").value = cfg.sessionNumber;
+    document.getElementById("tournament-date").value = cfg.tournamentDate || "";
     document.getElementById("tournament-location").value = cfg.location;
     document.getElementById("maps-url").value = cfg.mapsUrl;
     saveButton.disabled = false;
@@ -152,6 +153,7 @@ settingsForm.addEventListener("submit", async event => {
   const cfg = {
     registrationsOpen: document.getElementById("registrations-open").checked,
     sessionNumber: document.getElementById("session-number").value.trim(),
+    tournamentDate: document.getElementById("tournament-date").value,
     location: document.getElementById("tournament-location").value.trim(),
     mapsUrl: document.getElementById("maps-url").value.trim() || "https://maps.google.com/?q=" + encodeURIComponent(document.getElementById("tournament-location").value.trim())
   };

@@ -44,10 +44,11 @@
       <section class="settings-panel" aria-labelledby="event-settings-title">
         <p class="eyebrow">PUBLIC PAGE CONTROLS</p>
         <h2 id="event-settings-title">REGISTRATION & TOURNAMENT DETAILS</h2>
-        <p class="settings-help">These settings apply to every phone and computer. Choose whether registrations are open, and set the session number and venue shown on the public page.</p>
+        <p class="settings-help">These settings apply to every phone and computer. Choose whether registrations are open, and set the session number, tournament date and venue shown on the public page.</p>
         <form id="event-settings-form">
           <label class="toggle-setting"><span><strong>Open team registrations</strong><small>When switched off, visitors see “Registrations opening soon — stay tuned.”</small></span><input id="registrations-open" type="checkbox" /><b class="toggle-ui"></b></label>
           <label class="setting-field"><span>Session number / title</span><input id="session-number" type="text" maxlength="80" placeholder="e.g. SESSION 01 / MG PREMIER SERIES" required /></label>
+          <label class="setting-field"><span>Tournament date (optional)</span><input id="tournament-date" type="date" min="0001-01-01" max="9999-12-31" aria-describedby="date-help" /><small id="date-help">Leave blank to show “To be announced”.</small></label>
           <label class="setting-field"><span>Tournament location / full address</span><textarea id="tournament-location" rows="3" maxlength="400" placeholder="Enter tournament ground name and full address" required></textarea></label>
           <label class="setting-field"><span>Google Maps link (optional)</span><input id="maps-url" type="url" placeholder="https://maps.google.com/..." /></label>
           <button class="submit-btn settings-save" type="submit">SAVE PUBLIC PAGE SETTINGS <span>→</span></button>
