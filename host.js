@@ -1,7 +1,4 @@
-const HOST_EMAIL = "mgpremierseries.18@gmail.com";
-const HOST_PASSWORD = "43104310"; // Demo-only: do not use this client-side login on a public deployment.
 const STORAGE_KEY = "mgpsHostDemoRecords";
-const EVENT_SETTINGS_KEY = "mgpsEventSettings";
 
 const loginPanel = document.getElementById("login-panel");
 const dashboardPanel = document.getElementById("dashboard-panel");
@@ -13,28 +10,47 @@ const tableWrap = document.querySelector(".table-wrap");
 const searchInput = document.getElementById("search-input");
 let isLoggedIn = false;
 
-loginForm.addEventListener("submit", (event) => {
+async function authRequest(body) {
+  const response = await fetch("/api/host-auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || "Unable to sign in. Use your confirmed official host account.");
+  return data;
+}
+function showDashboard() {
+  isLoggedIn = true;
+  loginPanel.hidden = true;
+  dashboardPanel.hidden = false;
+  loginMessage.textContent = "";
+  renderDashboard();
+  loadEventSettings();
+}
+loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const email = document.getElementById("host-email").value.trim().toLowerCase();
+  const button = event.submitter;
+  const action = button?.value || "login";
+  const email = document.getElementById("host-email").value.trim();
   const password = document.getElementById("host-password").value;
-  if (email === HOST_EMAIL && password === HOST_PASSWORD) {
-    isLoggedIn = true;
-    loginPanel.hidden = true;
-    dashboardPanel.hidden = false;
-    loginMessage.textContent = "";
-    renderDashboard();
-    loadEventSettings();
-  } else {
-    loginMessage.textContent = "Invalid host email or password.";
-  }
+  if (button) button.disabled = true;
+  try {
+    const params = new URLSearchParams(location.hash.slice(1));
+    const token = params.get("recovery_token");
+    const data = await authRequest({ action: token && action === "login" ? "recover" : action, email, password, token });
+    if (data.ok) { history.replaceState(null, "", location.pathname); location.href = "host.html"; }
+    else loginMessage.textContent = data.message;
+  } catch (error) { loginMessage.textContent = error.message; }
+  finally { if (button) button.disabled = false; }
 });
-
-document.getElementById("logout-btn").addEventListener("click", () => {
-  isLoggedIn = false;
-  dashboardPanel.hidden = true;
-  loginPanel.hidden = false;
-  loginForm.reset();
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  try { await authRequest({ action: "logout" }); location.href = "host.html"; }
+  catch { document.getElementById("settings-message").textContent = "Could not sign out. Please retry."; }
 });
+async function restoreHostSession() {
+  try {
+    const response = await fetch("/api/host-auth", { cache: "no-store" });
+    if (response.ok && (await response.json()).authenticated) showDashboard();
+  } catch { loginMessage.textContent = "Unable to connect. Please retry sign-in."; }
+}
+restoreHostSession();
 
 function getRecords() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
@@ -116,21 +132,21 @@ document.getElementById("clear-demo-btn").addEventListener("click", () => {
 
 
 const settingsForm = document.getElementById("event-settings-form");
-function defaultEventSettings() {
-  return { registrationsOpen: false, sessionNumber: "SESSION 01 / FIND THE TRACK", location: "SyNo. 144, 1, Gurramguda Road, Sri Laxmi Nagar, Teachers Colony, Rajyalaxmi Nagar-2, Gurram Guda, Hyderabad, Telangana 501510", mapsUrl: "https://maps.google.com/?q=SyNo.+144+Gurramguda+Road+Hyderabad+Telangana+501510" };
+async function loadEventSettings() {
+  const saveButton = settingsForm.querySelector('button[type="submit"]');
+  saveButton.disabled = true;
+  try {
+    const response = await fetch("/api/event-settings", { cache: "no-store" });
+    if (!response.ok) throw new Error();
+    const cfg = await response.json();
+    document.getElementById("registrations-open").checked = cfg.registrationsOpen;
+    document.getElementById("session-number").value = cfg.sessionNumber;
+    document.getElementById("tournament-location").value = cfg.location;
+    document.getElementById("maps-url").value = cfg.mapsUrl;
+    saveButton.disabled = false;
+  } catch { document.getElementById("settings-message").textContent = "Could not load shared settings. Reload this page to retry."; }
 }
-function getEventSettings() {
-  try { return {...defaultEventSettings(), ...JSON.parse(localStorage.getItem(EVENT_SETTINGS_KEY) || "{}")} }
-  catch { return defaultEventSettings(); }
-}
-function loadEventSettings() {
-  const cfg = getEventSettings();
-  document.getElementById("registrations-open").checked = !!cfg.registrationsOpen;
-  document.getElementById("session-number").value = cfg.sessionNumber;
-  document.getElementById("tournament-location").value = cfg.location;
-  document.getElementById("maps-url").value = cfg.mapsUrl;
-}
-settingsForm.addEventListener("submit", event => {
+settingsForm.addEventListener("submit", async event => {
   event.preventDefault();
   if (!isLoggedIn) return;
   const cfg = {
@@ -139,6 +155,14 @@ settingsForm.addEventListener("submit", event => {
     location: document.getElementById("tournament-location").value.trim(),
     mapsUrl: document.getElementById("maps-url").value.trim() || "https://maps.google.com/?q=" + encodeURIComponent(document.getElementById("tournament-location").value.trim())
   };
-  localStorage.setItem(EVENT_SETTINGS_KEY, JSON.stringify(cfg));
-  document.getElementById("settings-message").textContent = "Saved. The registration page updates automatically in this browser. Use the same site address; these demo settings do not sync to other browsers or devices.";
+  const button = settingsForm.querySelector('button[type="submit"]');
+  const status = document.getElementById("settings-message");
+  button.disabled = true;
+  status.textContent = "Saving…";
+  try {
+    const response = await fetch("/api/event-settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(cfg) });
+    if (!response.ok) throw new Error();
+    status.textContent = "Saved for all devices. Open registration pages update within 15 seconds.";
+  } catch { status.textContent = "Settings were not saved. Check your connection and host sign-in, then retry."; }
+  finally { button.disabled = false; }
 });
