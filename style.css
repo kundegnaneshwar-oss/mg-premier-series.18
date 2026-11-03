@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #080705;
+  --panel: rgba(12, 10, 7, .94);
+  --gold: #e7b94e;
+  --gold-bright: #ffe39a;
+  --gold-deep: #98631a;
+  --cream: #fff4d9;
+  --muted: #c6c0b4;
+  --line: rgba(231, 185, 78, .72);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--cream); background:
+    radial-gradient(ellipse at 16% 30%, rgba(171, 111, 24, .10), transparent 34%),
+    radial-gradient(ellipse at 85% 70%, rgba(171, 111, 24, .08), transparent 28%),
+    var(--bg);
+  font-family: 'DM Sans', Arial, sans-serif;
+  min-height: 100vh;
+}
+body::before, body::after {
+  content: ""; position: fixed; z-index: -1; pointer-events: none;
+  width: 260px; height: 900px; opacity: .8; transform: rotate(38deg);
+  background: linear-gradient(90deg, transparent 0 25%, #9d691e 25% 27%, #f4cd6d 27% 48%, #17120a 48% 58%, transparent 58%);
+}
+body::before { left: -210px; top: -330px; }
+body::after { right: -260px; bottom: -480px; }
+.topbar {
+  min-height: 94px; padding: 12px clamp(18px, 5vw, 76px); display: flex;
+  align-items: center; justify-content: space-between; gap: 26px;
+  border-bottom: 1px solid rgba(231,185,78,.58);
+  background: rgba(4,4,3,.92); position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px);
+}
+.brand { display: flex; align-items: center; gap: 20px; color: var(--gold); text-decoration: none; min-width: 0; }
+.brand-logo { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; border: 2px solid var(--gold); background: #fff4df; }
+.brand-divider { height: 46px; width: 1px; background: var(--gold); }
+.brand-name { font: 600 clamp(16px, 1.8vw, 26px)/1.1 'Oswald', sans-serif; letter-spacing: .07em; white-space: nowrap; }
+.nav-links { display: flex; align-items: center; gap: clamp(14px, 2.5vw, 40px); }
+.nav-links a { color: #e8e3d8; text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: .09em; padding: 12px 0; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold-bright); }
+.nav-links a.active { border-bottom: 2px solid var(--gold); }
+.nav-links .nav-cta { color: #120d04; font-weight: 700; padding: 13px 20px; border-radius: 999px; border: 1px solid var(--gold); background: linear-gradient(135deg, #ffe8a4, #c58b28); }
+.menu-toggle { display: none; border: 1px solid var(--line); color: var(--gold); background: transparent; border-radius: 8px; padding: 9px 12px; font-size: 20px; }
+.hero {
+  width: min(1420px, 100%); margin: 0 auto; padding: clamp(44px, 6vw, 86px) clamp(20px, 5vw, 76px);
+  display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr); gap: clamp(36px, 6vw, 96px); align-items: center;
+}
+.intro { text-align: center; padding: 12px 0; }
+.large-logo-wrap { display: flex; justify-content: center; margin-bottom: 22px; }
+.large-logo { width: clamp(190px, 27vw, 350px); aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 0 7px rgba(231,185,78,.08), 0 18px 50px rgba(0,0,0,.55); }
+.eyebrow, .card-kicker { color: var(--gold); letter-spacing: .22em; font-size: 10px; font-weight: 700; }
+h1 { margin: 12px 0 0; color: var(--gold-bright); font: 700 clamp(35px, 5vw, 70px)/1.08 'Oswald', sans-serif; letter-spacing: .025em; text-shadow: 0 3px 0 #6f4612; }
+h1 span { display: block; }
+.tagline-rule, .card-rule { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 22px auto 10px; color: var(--gold-bright); }
+.tagline-rule span, .card-rule span { display: block; height: 1px; width: 35%; background: linear-gradient(90deg, transparent, var(--gold)); }
+.tagline-rule span:last-child, .card-rule span:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.tagline-rule b, .card-rule b { font-size: 20px; }
+.motto { font-size: clamp(13px, 1.6vw, 20px); font-weight: 700; letter-spacing: .35em; margin: 12px 0 26px; }
+.motto i { color: var(--gold); font-style: normal; padding: 0 5px; }
+.description { font: italic clamp(18px, 2vw, 27px) Georgia, serif; margin: 0; }
+.gold-script { color: var(--gold); font: italic 20px Georgia, serif; margin: 12px 0 28px; }
+.gold-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+.gold-pills span { border: 1px solid rgba(231,185,78,.42); border-radius: 99px; padding: 8px 12px; color: #d6c7a4; font-size: 9px; letter-spacing: .12em; }
+.registration-card {
+  position: relative; padding: 28px clamp(22px, 3vw, 42px) 22px; border: 1px solid var(--gold);
+  border-radius: 22px; background: linear-gradient(145deg, rgba(18,15,10,.98), rgba(5,5,4,.98));
+  box-shadow: 0 0 0 4px rgba(231,185,78,.055), 0 24px 65px rgba(0,0,0,.6), inset 0 1px rgba(255,238,180,.12);
+}
+.registration-card::before { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(231,185,78,.13); border-radius: 16px; pointer-events: none; }
+.card-top-icon { text-align: center; color: var(--gold-bright); font-size: 38px; line-height: 1; text-shadow: 0 2px 8px #a36d1d; }
+.card-rule { margin: 7px auto 13px; }
+.card-rule span { width: 31%; }
+.card-kicker { text-align: center; margin: 0 0 6px; }
+h2 { text-align: center; margin: 0; color: var(--gold-bright); font: 700 clamp(27px, 3vw, 40px)/1.1 'Oswald', sans-serif; letter-spacing: .04em; }
+.card-subtitle { text-align: center; color: #e5dfd3; font-size: 14px; margin: 10px 0 25px; }
+form { position: relative; z-index: 1; }
+.field { min-height: 58px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--gold); border-radius: 12px; padding: 0 15px; margin: 0 0 14px; background: rgba(0,0,0,.48); transition: box-shadow .2s, border-color .2s; }
+.field:focus-within { border-color: var(--gold-bright); box-shadow: 0 0 0 3px rgba(231,185,78,.12); }
+.field-icon { color: var(--gold-bright); width: 24px; text-align: center; font-size: 22px; }
+.field input { width: 100%; min-width: 0; background: transparent; border: 0; outline: 0; color: #fff7e4; font: 400 15px 'DM Sans', sans-serif; padding: 16px 0; }
+.field input::placeholder { color: #bdb8af; opacity: 1; }
+.submit-btn { display: flex; width: 100%; align-items: center; justify-content: center; gap: 18px; margin-top: 19px; padding: 17px 18px; border: 0; border-radius: 12px; cursor: pointer; color: #130e04; background: linear-gradient(115deg, #ffedb3, #d99c2e 50%, #f8d878); box-shadow: inset 0 1px rgba(255,255,255,.75), 0 7px 20px rgba(0,0,0,.3); font: 700 17px 'Oswald', sans-serif; letter-spacing: .04em; transition: transform .18s, filter .18s; }
+.submit-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.submit-btn span { font-size: 24px; line-height: 14px; }
+.form-note { color: #e8e2d7; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: .3em; margin: 20px 0 0; }
+.form-message { min-height: 18px; margin: 10px 0 0; text-align: center; color: var(--gold-bright); font-size: 12px; }
+.demo-note { margin: 8px 0 0; text-align: center; color: #8f8879; font-size: 10px; line-height: 1.5; }
+.info-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 76px) 50px; }
+.info-strip > div { padding: 20px; border-top: 1px solid rgba(231,185,78,.25); background: rgba(255,255,255,.015); }
+.info-number { color: var(--gold); font: 600 12px 'Oswald', sans-serif; letter-spacing: .12em; }
+.info-strip h3 { font: 600 18px 'Oswald', sans-serif; margin: 9px 0 6px; }
+.info-strip p { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 0; }
+.footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px clamp(20px, 5vw, 76px); border-top: 1px solid rgba(231,185,78,.25); color: #a99b7d; font-size: 10px; letter-spacing: .18em; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+@media (max-width: 920px) {
+  .topbar { padding-inline: 20px; }
+  .nav-links { gap: 15px; }
+  .nav-links a { font-size: 10px; }
+  .brand { gap: 12px; }
+  .brand-logo { width: 58px; height: 58px; }
+  .hero { grid-template-columns: 1fr; max-width: 700px; gap: 35px; padding-top: 38px; }
+  .large-logo { width: min(260px, 58vw); }
+  h1 span { display: inline; }
+}
+@media (max-width: 620px) {
+  .topbar { min-height: 76px; }
+  .brand-logo { width: 48px; height: 48px; }
+  .brand-divider { height: 32px; }
+  .brand-name { white-space: normal; font-size: 14px; max-width: 130px; }
+  .menu-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: 75px; left: 0; right: 0; padding: 15px 22px 22px; background: #080705; border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 12px; }
+  .nav-links .nav-cta { text-align: center; }
+  .hero { padding: 30px 18px 45px; }
+  .registration-card { padding: 25px 17px 19px; border-radius: 17px; }
+  .field { min-height: 54px; }
+  .info-strip { grid-template-columns: 1fr; padding-bottom: 30px; }
+  .footer { flex-direction: column; align-items: center; text-align: center; }
+}
+
+
+/* Host-controlled registration state and tournament venue */
+.registration-closed { padding: 26px 18px 22px; margin-top: 24px; border: 1px solid rgba(231,185,78,.45); border-radius: 12px; background: linear-gradient(145deg,#151109,#080705); text-align: center; }
+.closed-icon { color: var(--gold-bright); font-size: 28px; }
+.registration-closed h3 { margin: 12px 0 8px; color: var(--gold-bright); font: 700 clamp(20px,3vw,27px) 'Oswald',sans-serif; letter-spacing: .02em; }
+.registration-closed p { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0; }
+.venue-section { display:grid; grid-template-columns:1fr 1fr; gap: clamp(30px,6vw,90px); align-items:center; padding: 85px clamp(22px,5.5vw,110px); background:#101010; }
+.venue-copy .eyebrow { text-align:left; }
+.venue-copy h2 { font:900 clamp(38px,5.4vw,76px)/.98 'Oswald',sans-serif; letter-spacing:-.035em; margin:26px 0 24px; color:#f5f3ef; }
+.venue-copy h2 span { color:#d6a63b; }
+.venue-address { max-width:620px; color:#bdbdbd; line-height:1.9; font-size:clamp(14px,1.15vw,18px); white-space:pre-line; }
+.directions-btn { display:inline-flex; gap:35px; align-items:center; padding:20px 25px; margin-top:18px; border:1px solid #666; color:#f5f5f5; text-decoration:none; font-size:12px; font-weight:800; letter-spacing:.1em; }
+.directions-btn:hover,.map-footer:hover { border-color:#d6a63b; color:#f0c75e; }
+.map-card { border:1px solid #383838; background:#202020; min-height:320px; }
+.map-preview { min-height:320px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; color:#f5f5f5; text-decoration:none; background-color:#1b1c1c; background-image:linear-gradient(30deg,transparent 47%,#292b2b 48%,#292b2b 50%,transparent 51%),linear-gradient(120deg,transparent 47%,#292b2b 48%,#292b2b 51%,transparent 52%),linear-gradient(0deg,transparent 73%,#303232 74%,#303232 76%,transparent 77%); }
+.map-preview strong { margin-top:20px; font:900 27px 'Oswald',sans-serif; }
+.map-preview small { margin-top:8px; color:#aaa; letter-spacing:.2em; font-size:10px; text-align:center; }
+.map-cross { position:absolute; top:28px; left:32px; color:#777; font-size:25px; }
+.map-pin { width:18px; height:18px; border-radius:50%; background:#d6a63b; box-shadow:0 0 0 8px #d6a63b22; }
+.map-footer { display:block; padding:22px 10px; border-top:1px solid #303030; text-align:center; color:#eee; font-size:11px; letter-spacing:.12em; text-decoration:none; }
+@media(max-width:800px) { .venue-section {grid-template-columns:1fr; padding-block:55px;} .map-preview {min-height:250px;} .map-card {min-height:250px;} }
+
+
+/* Official tournament contact email */
+.contact-email { color: #d6ad55; text-decoration: none; overflow-wrap: anywhere; transition: color .2s ease; }
+.contact-email:hover, .contact-email:focus-visible { color: #fff; text-decoration: underline; }
+
+/* Logo asset reliability: preserve the circular emblem proportions. */
+.brand-logo, .large-logo { object-fit: contain; display: block; }

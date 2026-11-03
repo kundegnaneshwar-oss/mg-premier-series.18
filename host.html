@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080705" />
+  <title>Host Dashboard | MG Premier Series</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="host.css" />
+</head>
+<body class="host-page">
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <img src="assets/mg-premier-series-logo.jpeg" alt="MG Premier Series logo" class="brand-logo" />
+      <span class="brand-divider"></span><span class="brand-name">MG PREMIER SERIES</span>
+    </a>
+    <a class="back-link" href="index.html">← View registration page</a>
+  </header>
+
+  <main class="host-main">
+    <section id="login-panel" class="login-panel">
+      <div class="host-crown">♛</div>
+      <p class="eyebrow">OFFICIAL HOST ACCESS</p>
+      <h1>HOST <span>LOGIN</span></h1>
+      <p class="login-intro">Sign in to review team registrations and payment proof.</p>
+      <form id="host-login-form">
+        <label for="host-email">Host email</label>
+        <input id="host-email" name="email" type="email" autocomplete="username" required placeholder="Host email address" />
+        <label for="host-password">Password</label>
+        <input id="host-password" name="password" type="password" autocomplete="current-password" required placeholder="Password" />
+        <button class="submit-btn" type="submit">SIGN IN <span>→</span></button>
+        <p id="login-message" class="form-message" role="alert"></p>
+      </form>
+      <p class="demo-note">This is a local demo login. Do not publish this page with credentials embedded in JavaScript.</p>
+    </section>
+
+    <section id="dashboard-panel" hidden>
+      <div class="dashboard-heading">
+        <div><p class="eyebrow">TOURNAMENT MANAGEMENT</p><h1>HOST <span>DASHBOARD</span></h1><p class="login-intro">Review submitted registration records available in this browser.</p></div>
+        <button id="logout-btn" class="logout-btn" type="button">Log out</button>
+      </div>
+      <section class="settings-panel" aria-labelledby="event-settings-title">
+        <p class="eyebrow">PUBLIC PAGE CONTROLS</p>
+        <h2 id="event-settings-title">REGISTRATION & TOURNAMENT DETAILS</h2>
+        <p class="settings-help">Choose whether registrations are open, and set the session number and venue shown on the public page.</p>
+        <form id="event-settings-form">
+          <label class="toggle-setting"><span><strong>Open team registrations</strong><small>When switched off, visitors see “Registrations opening soon — stay tuned.”</small></span><input id="registrations-open" type="checkbox" /><b class="toggle-ui"></b></label>
+          <label class="setting-field"><span>Session number / title</span><input id="session-number" type="text" maxlength="80" placeholder="e.g. SESSION 01 / MG PREMIER SERIES" required /></label>
+          <label class="setting-field"><span>Tournament location / full address</span><textarea id="tournament-location" rows="3" maxlength="400" placeholder="Enter tournament ground name and full address" required></textarea></label>
+          <label class="setting-field"><span>Google Maps link (optional)</span><input id="maps-url" type="url" placeholder="https://maps.google.com/..." /></label>
+          <button class="submit-btn settings-save" type="submit">SAVE PUBLIC PAGE SETTINGS <span>→</span></button>
+          <p id="settings-message" class="form-message" role="status"></p>
+        </form>
+      </section>
+      <div class="stats-grid">
+        <article><span>Total registrations</span><strong id="total-count">0</strong></article>
+        <article><span>Awaiting review</span><strong id="pending-count">0</strong></article>
+        <article><span>Approved</span><strong id="approved-count">0</strong></article>
+      </div>
+      <div class="toolbar">
+        <input id="search-input" type="search" placeholder="Search team, captain, email..." aria-label="Search registrations" />
+        <button id="export-btn" class="secondary-btn" type="button">Export CSV</button>
+        <button id="clear-demo-btn" class="secondary-btn" type="button">Clear local demo data</button>
+      </div>
+      <div id="empty-state" class="empty-state">No registration records are available in this browser yet. The current registration/payment prototype does not send submissions to this host page. Connect a backend to manage real registrations.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Team / Captain</th><th>Contact</th><th>Payment proof</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="registration-rows"></tbody>
+        </table>
+      </div>
+      <p class="demo-note">Approvals here only affect demo records stored in this browser. Real multi-user access requires server-side authentication and a database.</p>
+    </section>
+  </main>
+  <div id="proof-modal" class="modal" hidden>
+    <div class="modal-card"><button id="close-modal" class="close-modal" type="button" aria-label="Close">×</button><h2>Payment proof</h2><img id="modal-proof" alt="Uploaded payment proof preview" /><p id="modal-proof-name"></p></div>
+  </div>
+  <script src="host.js"></script>
+</body>
+</html>

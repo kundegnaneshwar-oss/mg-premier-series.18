@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080705" />
+  <title>Payment | MG Premier Series</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="payment.css" />
+</head>
+<body class="payment-page">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="MG Premier Series home">
+      <img src="assets/mg-premier-series-logo.jpeg" alt="MG Premier Series logo" class="brand-logo" />
+      <span class="brand-divider"></span>
+      <span class="brand-name">MG PREMIER SERIES</span>
+    </a>
+    <a class="back-link" href="index.html">← Back to registration</a>
+  </header>
+
+  <main class="payment-main">
+    <section class="payment-heading">
+      <p class="eyebrow">ONE STEP CLOSER TO THE GAME</p>
+      <h1>COMPLETE YOUR <span>PAYMENT</span></h1>
+      <p>Scan the QR code below, complete the payment, then upload your payment screenshot.</p>
+    </section>
+
+    <div class="payment-layout">
+      <section class="payment-card qr-card">
+        <div class="step-label"><span>01</span> PAY USING QR</div>
+        <div class="qr-frame">
+          <img src="assets/payment-qr.jpeg" alt="MG Premier Series payment QR code" class="payment-qr" />
+        </div>
+        <div class="amount-label">REGISTRATION FEE</div>
+        <div class="amount">₹1,399 <small>/ team</small></div>
+        <ol class="payment-steps">
+          <li>Open any UPI payment app.</li>
+          <li>Scan the QR code and pay ₹1,399.</li>
+          <li>Save a screenshot of the successful payment.</li>
+        </ol>
+        <p class="security-note">Please check the recipient name and amount in your payment app before paying.</p>
+      </section>
+
+      <section class="payment-card upload-card">
+        <div class="step-label"><span>02</span> UPLOAD PAYMENT PROOF</div>
+        <h2>Payment screenshot</h2>
+        <p class="upload-intro">Upload a clear screenshot showing your successful payment. You cannot complete this step without selecting an image.</p>
+
+        <div class="registration-summary" id="registration-summary">
+          <div><span>Captain</span><strong id="summary-captain">—</strong></div>
+          <div><span>Team</span><strong id="summary-team">—</strong></div>
+          <div><span>Email</span><strong id="summary-email">—</strong></div>
+        </div>
+
+        <form id="proof-form">
+          <label class="upload-zone" for="payment-proof">
+            <span class="upload-symbol">↑</span>
+            <strong>Choose payment screenshot</strong>
+            <span>PNG, JPG, or WEBP · up to 8 MB</span>
+            <input id="payment-proof" name="paymentProof" type="file" accept="image/png,image/jpeg,image/webp" required />
+          </label>
+
+          <div id="preview-wrap" class="preview-wrap" hidden>
+            <img id="proof-preview" alt="Preview of selected payment screenshot" />
+            <div class="preview-caption"><span id="file-name"></span><button id="remove-proof" type="button">Remove</button></div>
+          </div>
+
+          <label class="utr-label" for="utr">UPI transaction ID / UTR <span>(optional)</span></label>
+          <input id="utr" name="utr" class="utr-input" type="text" placeholder="Enter transaction ID if available" maxlength="80" />
+
+          <button id="complete-btn" class="submit-btn" type="submit" disabled>UPLOAD PROOF TO CONTINUE <span>→</span></button>
+          <p id="upload-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="demo-note">Prototype: the selected screenshot is checked in your browser only. It is not sent to the tournament host until a backend is connected.</p>
+      </section>
+    </div>
+
+    <section id="completion-panel" class="completion-panel" hidden>
+      <div class="completion-check">✓</div>
+      <p class="eyebrow">PROOF ATTACHED</p>
+      <h2>PAYMENT PROOF SUBMITTED</h2>
+      <p>Your screenshot has been selected and attached in this browser preview. Your registration is <strong>pending host verification</strong>; uploading a screenshot does not itself confirm that payment was received.</p>
+      <div class="reference-box"><span>LOCAL PREVIEW REFERENCE</span><strong id="reference-id">—</strong></div>
+      <button class="submit-btn" id="back-home" type="button">BACK TO HOME <span>→</span></button>
+    </section>
+  </main>
+
+  <footer class="footer"><span>MG PREMIER SERIES</span><span>PLAY • COMPETE • WIN</span></footer>
+  <script src="payment.js"></script>
+</body>
+</html>
