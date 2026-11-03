@@ -15,9 +15,7 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
   });
 });
 
-function applyPublicSettings() {
-  let cfg = {};
-  try { cfg = JSON.parse(localStorage.getItem("mgpsEventSettings") || "{}"); } catch {}
+function applyPublicSettings(cfg) {
   const isOpen = cfg.registrationsOpen === true;
   const closed = document.getElementById("registration-closed");
   if (closed) closed.hidden = isOpen;
@@ -35,17 +33,30 @@ function applyPublicSettings() {
   const subtitle = document.getElementById("map-subtitle");
   if (subtitle) subtitle.textContent = session.toUpperCase();
 }
-applyPublicSettings();
-
-// Keep an open registration page in sync with changes from the host tab.
-window.addEventListener("storage", (event) => {
-  if (event.key === "mgpsEventSettings" || event.key === null) applyPublicSettings();
-});
-window.addEventListener("pageshow", applyPublicSettings);
-window.addEventListener("focus", applyPublicSettings);
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) applyPublicSettings();
-});
+let settingsRequest;
+async function refreshPublicSettings() {
+  if (settingsRequest) return settingsRequest;
+  settingsRequest = (async () => {
+    const status = document.getElementById("registration-status");
+    try {
+      const response = await fetch("/api/event-settings", { cache: "no-store" });
+      if (!response.ok) throw new Error("Settings unavailable");
+      applyPublicSettings(await response.json());
+      status.hidden = true;
+    } catch {
+      status.hidden = false;
+      document.getElementById("registration-status-text").textContent = "Unable to check registration availability. Check your connection and retry.";
+    }
+  })();
+  try { await settingsRequest; } finally { settingsRequest = null; }
+}
+document.getElementById("retry-settings").addEventListener("click", refreshPublicSettings);
+refreshPublicSettings();
+window.addEventListener("pageshow", refreshPublicSettings);
+window.addEventListener("focus", refreshPublicSettings);
+window.addEventListener("online", refreshPublicSettings);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshPublicSettings(); });
+setInterval(() => { if (!document.hidden) refreshPublicSettings(); }, 15000);
 
 form.addEventListener("submit", (event) => {
   if (form.hidden) { event.preventDefault(); return; }

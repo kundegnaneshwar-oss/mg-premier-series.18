@@ -50,7 +50,8 @@
         <h3>REGISTRATIONS OPENING SOON</h3>
         <p>Stay tuned. The host will announce when team registrations open.</p>
       </div>
-      <form id="registration-form" novalidate>
+      <div id="registration-status" role="status"><p id="registration-status-text">Checking registration availability…</p><button id="retry-settings" type="button">Retry</button></div>
+      <form id="registration-form" novalidate hidden>
         <label class="field">
           <span class="field-icon" aria-hidden="true">♙</span>
           <span class="sr-only">Captain name</span>
@@ -105,6 +106,7 @@
     <span>PLAY • COMPETE • WIN</span>
     <a class="contact-email" href="mailto:mgpremierseries.18@gmail.com">mgpremierseries.18@gmail.com</a>
   </footer>
+  <script src="auth-callback.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
